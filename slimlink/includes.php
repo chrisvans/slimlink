@@ -1,6 +1,7 @@
 <?php
 
 
+  // Redirect to stored webpage upon valid code entry through URI
   function redirect($url, $status_code = 303)
   {
     header('Location: ' . $url, true, $status_code);
@@ -8,20 +9,25 @@
   }
 
 
+  // Take the user's code input from URI and get the desired ( associated ) URL from the DB
   function get_link_url($trim_code) {
+    // Bring in DB $connection for use
     global $connection;
 
     $query = "SELECT * FROM slimlink";
     $result = mysqli_query($connection, $query);
 
+    // Error detection for bad query
     if (!$result) {
       die("Database query failed SELECT: " . mysqli_error($connection));
     }
 
+    // Store data in an array for use, rather than re-using the result itself
     $db_data = get_array_from_result($result);
 
     foreach($db_data as $row) {
-
+        
+        // Find the associated URL in the DB, return it
         if ($row["trimmed_url"] === $trim_code) {
             $url = $row["url"];
             $url = add_http_url($url);
@@ -34,6 +40,8 @@
 
   }
 
+
+  // Helper function for producing an associative array from a DB query result
   function get_array_from_result($result) {
     $db_data = array();
     
@@ -45,6 +53,7 @@
   }
 
 
+  // Helper function for generating a random 6 character string, without confusing characters such as i, I, or l
   function generate_random_string($length = 6) {
       $characters = 'abcdefghjkmnopqrstuvwxyzABCDEFGHJKMNOPQRSTUVWXYZ';
       $random_string = '';
@@ -55,6 +64,7 @@
   }
 
 
+  // Generate a unique 6 letter string based on existing DB entries, and use it as a code for finding a URL
   function generate_unique_trimmed_url() {
     global $connection;
     $trimmed_url_exists = True;
@@ -91,6 +101,7 @@
   }
 
 
+  // Helper function to see if a URL already exists in the DB
   function url_exists_in_db($db_data, $url) {
 
     foreach($db_data as $row) {
@@ -107,11 +118,14 @@
   }
 
 
+  // Diagnostic function to display a string with spacing
   function diag_echo($string) {
     echo '<br />' . $string . '<br />';
   }
 
 
+  // Diagnostic function to display DB data
+  // Note: Do not use this in production code, or more than once on the same data.
   function result_diag_echo($result) {
     $diag_result = $result;
 
@@ -123,6 +137,7 @@
   }
 
 
+  // Get a better readout for True and False values, as 1's and blank spaces can be confusing to diagnose with
   function get_true_or_false($bool) {
 
     if ($bool === True) {
@@ -134,6 +149,7 @@
   }
 
 
+  // Helper function for adding http to a string, and detecting if it needs it or not
   function add_http_url($url) {
 
     if (strpos($url, "http://") !== True) {
@@ -146,6 +162,7 @@
   }
 
 
+  // Helper function for removing http from a string, and detecting if it needs it or not
   function remove_http_url($url) {
 
     if (strpos($url, "http://") !== False) {
@@ -159,6 +176,7 @@
   }
 
 
+  // Helper function to verify that a URL is valid before acting upon it
   function is_valid_url($url) {
     return (filter_var($url, FILTER_VALIDATE_URL) !== false);
   }
