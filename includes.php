@@ -30,7 +30,7 @@
         // Find the associated URL in the DB, return it
         if ($row["trimmed_url"] === $trim_code) {
             $url = $row["url"];
-            $url = add_http_url($url);
+            // $url = add_http_url($url);
             return $url;
         }
 
@@ -150,30 +150,30 @@
 
 
   // Helper function for adding http to a string, and detecting if it needs it or not
-  function add_http_url($url) {
+  // function add_http_url($url) {
 
-    if (strpos($url, "http://") !== True) {
-      $new_url = str_replace($url, "http://" . $url, $url);
-      return $new_url;
-    } else {
-      return $url;
-    }
+  //   if (strpos($url, "http://") !== True) {
+  //     $new_url = str_replace($url, "http://" . $url, $url);
+  //     return $new_url;
+  //   } else {
+  //     return $url;
+  //   }
 
-  }
+  // }
 
 
   // Helper function for removing http from a string, and detecting if it needs it or not
-  function remove_http_url($url) {
+  // function remove_http_url($url) {
 
-    if (strpos($url, "http://") !== False) {
-      $new_url = str_replace("http://", "", $url);
-      return $new_url;
-    } elseif (strpos($url, "https://") !== False) {
-      $new_url = str_replace("https://", "", $url);
-      return $new_url;
-    }
+  //   if (strpos($url, "https://") !== False) {
+  //     $new_url = str_replace("https://", "", $url);
+  //     return $new_url;
+  //   } elseif (strpos($url, "http://") !== False) {
+  //     $new_url = str_replace("http://", "", $url);
+  //     return $new_url;
+  //   }
 
-  }
+  // }
 
 
   // Helper function to verify that a URL is valid before acting upon it

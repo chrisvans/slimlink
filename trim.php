@@ -9,11 +9,24 @@
   $information_message = '';
 
   // Connect to the MySQL DB
-  $dbhost = "localhost";
-  $dbuser = "chris_php";
-  $dbpass = "bagel";
-  $dbname = "php_chris";
-  $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+  // $dbhost = "localhost";
+  // $dbuser = "chris_php";
+  // $dbpass = "bagel";
+  // $dbname = "php_chris";
+  // $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+
+  // Connect to Heroku DB
+
+  $url=parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+  $server = $url["host"];
+  $username = $url["user"];
+  $password = $url["pass"];
+  $db = substr($url["path"],1);
+
+  $connection = mysql_connect($server, $username, $password);
+            
+  mysql_select_db($db);
 
   if(mysqli_connect_error()) {
     die(
@@ -26,12 +39,12 @@
   if (isset($_POST["url"])) {
     $url = $_POST["url"];
     // Helper function to give Http:// to a URL for Validation, but only if it needs it
-    $url = add_http_url($url);
+    // $url = add_http_url($url);
 
     // Act upon a valid URL entry
     if (is_valid_url($url) === True) {
       // Remove Http/s from URL for generic storage in the DB
-      $url = remove_http_url($url);
+      // $url = remove_http_url($url);
       // Escape all characters in the URL for proper DB storage
       $url = mysqli_real_escape_string($connection, $url);
       $query = "SELECT * FROM slimlink ";
