@@ -1,5 +1,39 @@
 <?php
 
+
+  function redirect($url, $status_code = 303)
+  {
+    header('Location: ' . $url, true, $status_code);
+    die();
+  }
+
+
+  function get_link_url($trim_code) {
+    global $connection;
+
+    $query = "SELECT * FROM slimlink";
+    $result = mysqli_query($connection, $query);
+
+    if (!$result) {
+      die("Database query failed SELECT: " . mysqli_error($connection));
+    }
+
+    $db_data = get_array_from_result($result);
+
+    foreach($db_data as $row) {
+
+        if ($row["trimmed_url"] === $trim_code) {
+            $url = $row["url"];
+            $url = add_http_url($url);
+            return $url;
+        }
+
+    }
+
+    return False;
+
+  }
+
   function get_array_from_result($result) {
     $db_data = array();
     
