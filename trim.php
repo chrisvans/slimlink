@@ -28,12 +28,12 @@
             
   mysql_select_db($db);
 
-  if(mysql_connect_error()) {
-    die(
-        mysql_connect_error() . " (" .
-        mysql_connect_errno() . ")"
-       );
-  }
+  // if(mysql_connect_error()) {
+  //   die(
+  //       mysql_connect_error() . " (" .
+  //       mysql_connect_errno() . ")"
+  //      );
+  // }
 
   // Act upon a valid POST request
   if (isset($_POST["url"])) {
