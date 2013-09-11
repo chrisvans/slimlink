@@ -65,7 +65,8 @@
     if ($redirect_url === False) {
         $error_message = "Invalid Slimlink Provided.";
     } else {
-        redirect($redirect_url);
+        echo $redirect_url;
+        // redirect($redirect_url);
     }
   }
 

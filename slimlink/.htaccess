@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !slimlink/trim\.php
+RewriteRule ^(.*)$ trim.php/$1 [L,QSA]
+
+</IfModule>
