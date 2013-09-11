@@ -48,9 +48,7 @@
   }
 
 
-  function url_exists_in_db($result, $url) {
-
-    $db_data = get_array_from_result($result);
+  function url_exists_in_db($db_data, $url) {
 
     foreach($db_data as $row) {
 
@@ -154,8 +152,9 @@
       if (!$result) {
         die("Database query failed SELECT: " . mysqli_error($connection));
       }
-      
-      $url_exists = url_exists_in_db($result, $url);
+        
+      $db_data = get_array_from_result($result);
+      $url_exists = url_exists_in_db($db_data, $url);
       diag_echo(get_true_or_false($url_exists));
       $random = generate_unique_trimmed_url();
       diag_echo($random);
