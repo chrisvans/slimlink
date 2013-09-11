@@ -35,17 +35,6 @@
   //      );
   // }
 
-  $query = "CREATE TABLE slimlink ( ";
-  $query .= "id INT(11) NOT NULL AUTO_INCREMENT, ";
-  $query .= "url TEXT, ";
-  $query .= "trimmed_url TEXT, ";
-  $query .= "PRIMARY KEY (id) )";
-  $result = mysql_query($connection, $query);
-
-  if (!$result) {
-    die("Database query failed CREATE: " . mysql_error($connection));
-  }
-
   // Act upon a valid POST request
   if (isset($_POST["url"])) {
     $url = $_POST["url"];
