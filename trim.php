@@ -13,7 +13,7 @@
   // $dbuser = "chris_php";
   // $dbpass = "bagel";
   // $dbname = "php_chris";
-  // $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+  // $connection = mysql_connect($dbhost, $dbuser, $dbpass, $dbname);
 
   // Connect to Heroku DB
 
@@ -28,10 +28,10 @@
             
   mysql_select_db($db);
 
-  if(mysqli_connect_error()) {
+  if(mysql_connect_error()) {
     die(
-        mysqli_connect_error() . " (" .
-        mysqli_connect_errno() . ")"
+        mysql_connect_error() . " (" .
+        mysql_connect_errno() . ")"
        );
   }
 
@@ -46,12 +46,12 @@
       // Remove Http/s from URL for generic storage in the DB
       // $url = remove_http_url($url);
       // Escape all characters in the URL for proper DB storage
-      $url = mysqli_real_escape_string($connection, $url);
+      $url = mysql_real_escape_string($connection, $url);
       $query = "SELECT * FROM slimlink ";
-      $result = mysqli_query($connection, $query);
+      $result = mysql_query($connection, $query);
       
       if (!$result) {
-        die("Database query failed SELECT: " . mysqli_error($connection));
+        die("Database query failed SELECT: " . mysql_error($connection));
       }
         
       // Check against the DB to see if the URL already exists
@@ -65,11 +65,11 @@
         // Save the URL and 'code'
         $query = "INSERT INTO slimlink (trimmed_url, url) ";
         $query .= "VALUES ('{$trimmed_url}', '{$url}')";
-        $insert_result = mysqli_query($connection, $query);
+        $insert_result = mysql_query($connection, $query);
 
         // Test if there was a query error.
         if (!$insert_result) {
-          die("Database query failed INSERT: " . mysqli_error($connection));
+          die("Database query failed INSERT: " . mysql_error($connection));
         }
 
       }

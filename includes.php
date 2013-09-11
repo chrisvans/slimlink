@@ -15,11 +15,11 @@
     global $connection;
 
     $query = "SELECT * FROM slimlink";
-    $result = mysqli_query($connection, $query);
+    $result = mysql_query($connection, $query);
 
     // Error detection for bad query
     if (!$result) {
-      die("Database query failed SELECT: " . mysqli_error($connection));
+      die("Database query failed SELECT: " . mysql_error($connection));
     }
 
     // Store data in an array for use, rather than re-using the result itself
@@ -45,7 +45,7 @@
   function get_array_from_result($result) {
     $db_data = array();
     
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = mysql_fetch_assoc($result)) {
         array_push($db_data, $row);
     }
 
@@ -71,12 +71,12 @@
 
     while ($trimmed_url_exists === True) {
       $random = generate_random_string();
-      $random = mysqli_real_escape_string($connection, $random);
+      $random = mysql_real_escape_string($connection, $random);
       $test_query = "SELECT * FROM slimlink ";
-      $test_result = mysqli_query($connection, $test_query);
+      $test_result = mysql_query($connection, $test_query);
 
       if (!$test_result) {
-        die("Database query failed SELECT: " . mysqli_error($connection));
+        die("Database query failed SELECT: " . mysql_error($connection));
       }
       
       $db_data = get_array_from_result($test_result);
@@ -129,7 +129,7 @@
   function result_diag_echo($result) {
     $diag_result = $result;
 
-    while($row = mysqli_fetch_assoc($diag_result)) {
+    while($row = mysql_fetch_assoc($diag_result)) {
       var_dump($row);
       echo "<hr />";
     }
