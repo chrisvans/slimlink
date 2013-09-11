@@ -58,15 +58,14 @@
         $error_message = "Invalid URL.";
     }
 
-  } elseif ("trim.php" === strstr($_SERVER['REQUEST_URI'], "trim.php")) {
+  } elseif ("trim.php" !== strstr($_SERVER['REQUEST_URI'], "trim.php")) {
     $trim_code = str_replace("/slimlink/", "", $_SERVER['REQUEST_URI']);
     $redirect_url = get_link_url($trim_code);
 
     if ($redirect_url === False) {
         $error_message = "Invalid Slimlink Provided.";
     } else {
-        echo $redirect_url;
-        // redirect($redirect_url);
+        redirect($redirect_url);
     }
   }
 
