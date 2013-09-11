@@ -35,7 +35,7 @@
   //      );
   // }
 
-  $query = "CREATE slimlink ( ";
+  $query = "CREATE TABLE slimlink ( ";
   $query .= "id INT(11) NOT NULL AUTO_INCREMENT, ";
   $query .= "url TEXT, ";
   $query .= "trimmed_url TEXT, ";
