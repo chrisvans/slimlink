@@ -1,5 +1,24 @@
 <?php
 
+  function generate_unique_trimmed_url() {
+    global $connection;
+
+    $trimmed_url_exists = True;
+
+    while ($trimmed_url_exists === True) {
+      $random = substr(md5(microtime()),rand(0,26),6);
+      $test_query = "SELECT trimmed_url = '{$random}' FROM slimlink ";
+      $test_result = mysqli_query($connection, $test_query);
+
+      if (!$test_result) {
+        die("Database query failed SELECT: " . mysqli_error($connection));
+      }
+
+      $trimmed_url_exists = exists($test_result);
+    }
+    return $random;
+  }
+
   function exists($result) {
     return empty($result);
   }
@@ -92,15 +111,18 @@
       echo '<br />';
       echo '-----';
 
-      if ($url_exists === False) {
-        $query = "INSERT INTO slimlink (trimmed_url, url) ";
-        $query .= "VALUES ('{$trimmed_url}', {$url})";
-        $insert_result = mysqli_query($connection, $query);
-        // Test if there was a query error.
-        if (!$insert_result) {
-          die("Database query failed INSERT: " . mysqli_error($connection));
-        }
-      }
+      $random = generate_unique_trimmed_url();
+      diag_echo($random);
+      // if ($url_exists === False) {
+      //   $url = mysqli_real_escape_string($connection, $url);
+      //   $query = "INSERT INTO slimlink (trimmed_url, url) ";
+      //   $query .= "VALUES ('{$trimmed_url}', '{$url}')";
+      //   $insert_result = mysqli_query($connection, $query);
+      //   // Test if there was a query error.
+      //   if (!$insert_result) {
+      //     die("Database query failed INSERT: " . mysqli_error($connection));
+      //   }
+      // }
 
     } else {
         $error_message = "Invalid URL.";
