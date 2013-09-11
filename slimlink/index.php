@@ -1,6 +1,17 @@
 <?php
 
 
+  function get_array_from_result($result) {
+    $db_data = array();
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        array_push($db_data, $row);
+    }
+
+    return $db_data;
+  }
+
+
   function generate_unique_trimmed_url() {
     global $connection;
     $trimmed_url_exists = True;
@@ -15,15 +26,11 @@
         die("Database query failed SELECT: " . mysqli_error($connection));
       }
       
-      $db_data = array();
-
-      while ($row = mysqli_fetch_assoc($test_result)) {
-        array_push($db_data, $row);
-      }
+      $db_data = get_array_from_result($test_result);
       
       $exist_check = False;
       
-      foreach($db_data as $row){
+      foreach($db_data as $row) {
 
         if ($row["trimmed_url"] === $random) {
             $exist_check = True;
@@ -41,18 +48,19 @@
   }
 
 
-  function exists($result) {
-    $rowcount = 0;
+  function url_exists_in_db($result, $url) {
 
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rowcount += 1;
-    }
+    $db_data = get_array_from_result($result);
 
-    if ($rowcount > 0){
-        return True;
-    } else {
-        return False;
+    foreach($db_data as $row) {
+
+        if ($row["url"] === $url) {
+            return True;
+        }
+
     }
+    
+    return False;
   }
 
 
@@ -130,12 +138,6 @@
        );
   }
 
-  // Logic to check against POST, valid POST, generate 6 character string.
-  // Validate url
-  // Check for 'http' in url
-  // Remove http:// or https:// from url for generic DB save
-  // Check to see if the URL already exists in the DB
-
   if (isset($_POST["url"])) {
     print_r($_POST); echo '<br />';
     $url = $_POST["url"];
@@ -144,7 +146,7 @@
     if (is_valid_url($url) === True) {
       $url = remove_http_url($url);
       $url = mysqli_real_escape_string($connection, $url);
-      $query = "SELECT url = '{$url}' FROM slimlink ";
+      $query = "SELECT * FROM slimlink ";
       // Get resource - Collection of DB Rows
       $result = mysqli_query($connection, $query);
       // Test if there was a query error, but does not test if the query was empty.
@@ -153,8 +155,8 @@
         die("Database query failed SELECT: " . mysqli_error($connection));
       }
       
-      $url_exists = exists($result);
-      diag_echo($url_exists);
+      $url_exists = url_exists_in_db($result, $url);
+      diag_echo(get_true_or_false($url_exists));
       $random = generate_unique_trimmed_url();
       diag_echo($random);
 
