@@ -34,14 +34,33 @@
   }
 
   $test_string = "https://www.google.com";
-
-  if (strpos($test_string, "http://") !== False) {
-    $valid_string = str_replace("http://", "", $test_string);
-    echo $valid_string;
-  } elseif (strpos($test_string, "https://") !== False) {
-    $valid_string = str_replace("https://", "", $test_string);
-    echo $valid_string;
+  $test_string2 = "http://www.google.com";
+  
+  function is_valid_url($url) {
+    return (filter_var($url, FILTER_VALIDATE_URL) !== false);
   }
+
+  function get_true_or_false($bool) {
+    if ($bool === True) {
+        return 'True';
+    } else {
+        return 'False';
+    }
+  }
+
+  function edit_url($url) {
+    if (strpos($url, "http://") !== False) {
+      $valid_string = str_replace("http://", "", $url);
+      return $valid_string;
+    } elseif (strpos($url, "https://") !== False) {
+      $valid_string = str_replace("https://", "", $url);
+      return $valid_string;
+    }
+  }
+
+  echo edit_url($test_string);
+  echo '<br />';
+  echo edit_url($test_string2);
 
   // // If the user sent a valid url via POST, generate a 
   // // trimmed_url and insert it into the DB along with
