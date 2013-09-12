@@ -9,31 +9,18 @@
   $information_message = '';
 
   // Connect to the MySQL DB
-  // $dbhost = "localhost";
-  // $dbuser = "chris_php";
-  // $dbpass = "bagel";
-  // $dbname = "php_chris";
-  // $connection = mysql_connect($dbhost, $dbuser, $dbpass, $dbname);
+  $dbhost = "localhost";
+  $dbuser = "chris_php";
+  $dbpass = "bagel";
+  $dbname = "php_chris";
+  $connection = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
-  // Connect to Heroku DB
-
-  $url=parse_url(getenv("CLEARDB_DATABASE_URL"));
-
-  $server = $url["host"];
-  $username = $url["user"];
-  $password = $url["pass"];
-  $db = substr($url["path"],1);
-
-  $connection = mysql_connect($server, $username, $password);
-            
-  mysql_select_db($db);
-
-  // if(mysql_connect_error()) {
-  //   die(
-  //       mysql_connect_error() . " (" .
-  //       mysql_connect_errno() . ")"
-  //      );
-  // }
+  if(mysqli_connect_error()) {
+    die(
+        mysqli_connect_error() . " (" .
+        mysqli_connect_errno() . ")"
+       );
+  }
 
   // Act upon a valid POST request
   if (isset($_POST["url"])) {
@@ -43,15 +30,13 @@
 
     // Act upon a valid URL entry
     if (is_valid_url($url) === True) {
-      // Remove Http/s from URL for generic storage in the DB
-      // $url = remove_http_url($url);
       // Escape all characters in the URL for proper DB storage
-      $url = mysql_real_escape_string($url, $connection);
+      $url = mysqli_real_escape_string($connection, $url);
       $query = "SELECT * FROM slimlink ";
-      $result = mysql_query($query, $connection);
+      $result = mysqli_query($connection, $query);
       
       if (!$result) {
-        die("Database query failed SELECT: " . mysql_error($connection));
+        die("Database query failed SELECT: " . mysqli_error($connection));
       }
         
       // Check against the DB to see if the URL already exists
@@ -65,27 +50,26 @@
         // Save the URL and 'code'
         $query = "INSERT INTO slimlink (trimmed_url, url) ";
         $query .= "VALUES ('{$trimmed_url}', '{$url}')";
-        $insert_result = mysql_query($query, $connection);
+        $insert_result = mysqli_query($connection, $query);
 
         // Test if there was a query error.
         if (!$insert_result) {
-          die("Database query failed INSERT: " . mysql_error($connection));
+          die("Database query failed INSERT: " . mysqli_error($connection));
         }
 
       }
       // Set messages
       $success_message = "{$url} successfully trimmed!";
-      $information_message = "Access your URL at www.slimlink.us/{$trimmed_url}";
+      $information_message = "Access your URL at www.slimlink.com/{$trimmed_url}";
 
     } else {
         $error_message = "Invalid URL.";
     }
 
   // If the user has entered in a code via the URI, instead of landing on the main page
-  } elseif ("index.php" !== strstr($_SERVER['REQUEST_URI'], "index.php")) {
-    diag_echo(strstr($_SERVER['REQUEST_URI'], "trim.php"));
+  } elseif ("trim.php" !== strstr($_SERVER['REQUEST_URI'], "trim.php")) {
     // Get only the code from the request_uri
-    $trim_code = str_replace("/", "", $_SERVER['REQUEST_URI']);
+    $trim_code = str_replace("/slimlink/", "", $_SERVER['REQUEST_URI']);
     // Check and see if the code is valid, and if so, return the corresponding URL from the DB
     $redirect_url = get_link_url($trim_code);
 
