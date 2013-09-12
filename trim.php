@@ -75,7 +75,7 @@
       }
       // Set messages
       $success_message = "{$url} successfully trimmed!";
-      $information_message = "Access your URL at www.slimlink.us/{$trimmed_url}";
+      $information_message = "Access your URL at <a href='http://www.slimlink.us/{$trimmed_url}'>www.slimlink.us/{$trimmed_url}</a>";
 
     } else {
         $error_message = "Invalid URL.";
@@ -99,23 +99,35 @@
   }
 
 ?>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
 
-  <title>
-    Slimlink
-  </title>
+    <title>Slimlink</title>
+
+  <link href='http://fonts.googleapis.com/css?family=Dosis:300,500,700' rel='stylesheet' type='text/css'>
+  <link href="/slimlink/bootstrap/css/bootstrap.css" media="all" rel="stylesheet" type="text/css">
+  <link href="/slimlink/bootstrap/css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css">
+  <link href="/slimlink/stylesheets/slimlink.css" media="all" rel="stylesheet" type="text/css">
+
+  </head>
 
   <body>
-    
-    <form action="index.php" method="post">
+    <div class='navbar navbar-fixed-top' >
+      <div class="navbar-inner">
+      </div>
+    </div>
+    <div class="container">
+      <form class="form-signin" action="index.php" method="post">
         Link: <input type="text" name="url" value="" /><br />
-        <input type="submit" name="submit" value="Submit" />
+        <button class="btn btn-large btn-primary" type="submit" name="submit" value="Submit">Submit</button>
         <?php
         diag_echo($error_message);
         diag_echo($success_message);
         diag_echo($information_message);
         ?>
-    </form>
+      </form>
+    </div>
     
   </body>
 
