@@ -88,7 +88,7 @@
   } elseif ("trim.php" !== strstr($_SERVER['REQUEST_URI'], "trim.php")) {
     // Get only the code from the request_uri
     diag_echo($_SERVER['REQUEST_URI']);
-    $trim_code = $_SERVER['REQUEST_URI'];
+    $trim_code = str_replace("/", "", $_SERVER['REQUEST_URI']);
     // Check and see if the code is valid, and if so, return the corresponding URL from the DB
     $redirect_url = get_link_url($trim_code);
 
