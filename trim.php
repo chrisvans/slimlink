@@ -75,6 +75,8 @@
 
       }
       // Set messages
+      diag_echo($url);
+      diag_echo($trimmed_url);
       $success_message = "{$url} successfully trimmed!";
       $information_message = "Access your URL at www.slimlink.us/{$trimmed_url}";
 
