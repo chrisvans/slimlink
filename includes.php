@@ -150,19 +150,20 @@
 
 
   // Helper function for adding http to a string, and detecting if it needs it or not
-  // function add_http_url($url) {
+  function add_http_url($url) {
 
-  //   if (strpos($url, "http://") !== True) {
-  //     $new_url = str_replace($url, "http://" . $url, $url);
-  //     return $new_url;
-  //   } else {
-  //     return $url;
-  //   }
+    if (substr($url, 0, 4) !== "http") {
+      $new_url = str_replace($url, "http://" . $url, $url);
+      return $new_url;
+    } else {
+      return $url;
+    }
 
-  // }
+  }
 
 
   // Helper function for removing http from a string, and detecting if it needs it or not
+  // Removed code to allow for https, as not storing http / https was only a convenience
   // function remove_http_url($url) {
 
   //   if (strpos($url, "https://") !== False) {

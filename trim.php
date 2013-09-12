@@ -38,9 +38,8 @@
   // Act upon a valid POST request
   if (isset($_POST["url"])) {
     $url = $_POST["url"];
-    diag_echo($url);
     // Helper function to give Http:// to a URL for Validation, but only if it needs it
-    // $url = add_http_url($url);
+    $url = add_http_url($url);
 
     // Act upon a valid URL entry
     if (is_valid_url($url) === True) {
@@ -75,8 +74,6 @@
 
       }
       // Set messages
-      diag_echo($url);
-      diag_echo($trimmed_url);
       $success_message = "{$url} successfully trimmed!";
       $information_message = "Access your URL at www.slimlink.us/{$trimmed_url}";
 
@@ -87,7 +84,6 @@
   // If the user has entered in a code via the URI, instead of landing on the main page
   } elseif ("trim.php" !== strstr($_SERVER['REQUEST_URI'], "trim.php")) {
     // Get only the code from the request_uri
-    diag_echo($_SERVER['REQUEST_URI']);
     $trim_code = str_replace("/", "", $_SERVER['REQUEST_URI']);
     // Check and see if the code is valid, and if so, return the corresponding URL from the DB
     $redirect_url = get_link_url($trim_code);
