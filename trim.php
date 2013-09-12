@@ -48,7 +48,7 @@
       // Escape all characters in the URL for proper DB storage
       $url = mysql_real_escape_string($connection, $url);
       $query = "SELECT * FROM slimlink ";
-      $result = mysql_query($connection, $query);
+      $result = mysql_query($query, $connection);
       
       if (!$result) {
         die("Database query failed SELECT: " . mysql_error($connection));
@@ -65,7 +65,7 @@
         // Save the URL and 'code'
         $query = "INSERT INTO slimlink (trimmed_url, url) ";
         $query .= "VALUES ('{$trimmed_url}', '{$url}')";
-        $insert_result = mysql_query($connection, $query);
+        $insert_result = mysql_query($query, $connection);
 
         // Test if there was a query error.
         if (!$insert_result) {

@@ -15,7 +15,7 @@
     global $connection;
 
     $query = "SELECT * FROM slimlink";
-    $result = mysql_query($connection, $query);
+    $result = mysql_query($query, $connection);
 
     // Error detection for bad query
     if (!$result) {
@@ -73,7 +73,7 @@
       $random = generate_random_string();
       $random = mysql_real_escape_string($connection, $random);
       $test_query = "SELECT * FROM slimlink ";
-      $test_result = mysql_query($connection, $test_query);
+      $test_result = mysql_query($test_query, $connection);
 
       if (!$test_result) {
         die("Database query failed SELECT: " . mysql_error($connection));
