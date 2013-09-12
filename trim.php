@@ -38,6 +38,7 @@
   // Act upon a valid POST request
   if (isset($_POST["url"])) {
     $url = $_POST["url"];
+    diag_echo($url);
     // Helper function to give Http:// to a URL for Validation, but only if it needs it
     // $url = add_http_url($url);
 
@@ -75,7 +76,7 @@
       }
       // Set messages
       $success_message = "{$url} successfully trimmed!";
-      $information_message = "Access your URL at www.slimlink.com/{$trimmed_url}";
+      $information_message = "Access your URL at www.slimlink.us/{$trimmed_url}";
 
     } else {
         $error_message = "Invalid URL.";
