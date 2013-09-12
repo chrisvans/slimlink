@@ -71,7 +71,7 @@
 
     while ($trimmed_url_exists === True) {
       $random = generate_random_string();
-      $random = mysql_real_escape_string($connection, $random);
+      $random = mysql_real_escape_string($random, $connection);
       $test_query = "SELECT * FROM slimlink ";
       $test_result = mysql_query($test_query, $connection);
 
