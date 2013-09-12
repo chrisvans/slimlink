@@ -1,7 +1,10 @@
+AddType text/css .css
+AddCharset utf-8 .css .js
+
 <IfModule mod_rewrite.c>
 
 RewriteEngine on
-RewriteCond %{REQUEST_URI} !trim\.php
-RewriteRule ^(.*)$ trim.php/$1 [L,QSA]
+RewriteCond %{REQUEST_URI} !slimlink/trim\.php
+RewriteRule !/ trim.php/$1 [L,QSA]
 
 </IfModule>
