@@ -82,7 +82,8 @@
     }
 
   // If the user has entered in a code via the URI, instead of landing on the main page
-  } elseif ("index.php" !== strstr($_SERVER['REQUEST_URI'], "index.php")) {
+  } elseif ("trim.php" !== strstr($_SERVER['REQUEST_URI'], "trim.php")) {
+    diag_echo(strstr($_SERVER['REQUEST_URI'], "trim.php"));
     // Get only the code from the request_uri
     $trim_code = str_replace("/", "", $_SERVER['REQUEST_URI']);
     // Check and see if the code is valid, and if so, return the corresponding URL from the DB
