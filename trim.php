@@ -74,11 +74,11 @@
 
       }
       // Set messages
-      $success_message = "{$url} successfully trimmed!";
+      $success_message = "{$url} successfully slimmed!";
       $information_message = "Access your URL at <a href='http://www.slimlink.us/{$trimmed_url}'>www.slimlink.us/{$trimmed_url}</a>";
 
     } else {
-        $error_message = "Invalid URL.";
+        $error_message = "Sorry, you entered an invalid URL.";
     }
 
   // If the user has entered in a code via the URI, instead of landing on the main page
@@ -91,7 +91,7 @@
 
     // If the code was invalid, it returned False.
     if ($redirect_url === False) {
-        $error_message = "Invalid Slimlink Provided.";
+        $error_message = "Invalid Slimlink Code Provided.";
     // If the code was in the DB, it returned the proper URL
     } else {
         redirect($redirect_url);
@@ -105,30 +105,38 @@
 
     <title>Slimlink</title>
 
-  <link href='http://fonts.googleapis.com/css?family=Dosis:300,500,700' rel='stylesheet' type='text/css'>
-  <link href="/slimlink/bootstrap/css/bootstrap.css" media="all" rel="stylesheet" type="text/css">
-  <link href="/slimlink/bootstrap/css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css">
-  <link href="/slimlink/stylesheets/slimlink.css" media="all" rel="stylesheet" type="text/css">
+  <link href='http://fonts.googleapis.com/css?family=Dosis:300,500,700' rel='stylesheet' type='font/woff'>
+  <link href="bootstrap/css/bootstrap.css" media="all" rel="stylesheet" type="text/css">
+  <link href="bootstrap/css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css">
+  <link href="stylesheets/slimlink.css" media="all" rel="stylesheet" type="text/css">
 
   </head>
 
   <body>
-
-    <br />
-    <div class='navbar navbar-fixed-top' >
-      <div class="navbar-inner">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inverse">
+        <div class="navbar-inner">
+          <div id="topnav">
+            <a class="brand" href="http://www.slimlink.us/index.php">Slimlink</a>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="container">
+
+    <div class="container" id="contentdiv">
+      <div id="left">
       <form class="form-signin" action="index.php" method="post">
-        Link: <input type="text" name="url" value="" /><br />
-        <button class="btn btn-large btn-primary" type="submit" name="submit" value="Submit">Submit</button>
+        Link: <input class="input-block-level" type="text" name="url" placeholder="Enter your URL here to have it slimmed" />
+        <button class="btn btn-small btn-primary" type="submit" name="submit" value="Submit">Slim</button>
         <?php
         diag_echo($error_message);
         diag_echo($success_message);
         diag_echo($information_message);
         ?>
-      </form>
+      <form>
+      </div>
+      <div id="right">
+      </div>
     </div>
     
   </body>
