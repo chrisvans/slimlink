@@ -48,6 +48,7 @@
       // $url = remove_http_url($url);
       // Escape all characters in the URL for proper DB storage
       $url = mysql_real_escape_string($connection, $url);
+      diag_echo($url);
       $query = "SELECT * FROM slimlink ";
       $result = mysql_query($query, $connection);
       
